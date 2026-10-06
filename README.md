@@ -7,7 +7,7 @@
 # Варианты структуры репозитория
 ```
   typst-sfu
-  ├── examples
+  ├── exmp
   │   ├── assets
   │   │   └── img.png
   │   └── main.typ
