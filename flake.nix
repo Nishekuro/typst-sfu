@@ -9,20 +9,33 @@
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
+    src = pkgs.lib.fileset.toSource {
+      root = ./.;
+      fileset = pkgs.lib.fileset.unions [
+        ./lib.typ
+        ./examples
+      ];
+    };
   in {
     devShells.${system}.default = pkgs.mkShell {
       packages = with pkgs; [
         typst
         tre-command
+        poppler-utils
       ];
     };
 
-    packages.default = pkgs.stdenv.mkDerivation {
-      pname = "typst-sfu";
-      version = "0.1.0";
-      src = ./.;
-      buildInputs = [pkgs.typst];
-      buildPhase = "typst compile";
-    };
+    packages.${system}.default =
+      pkgs.runCommand "typst-sfu.zip" {
+        inherit src;
+        nativeBuildInputs = [pkgs.zip];
+      } ''
+        mkdir typst-sfu
+
+        cp $src/lib.typ typst-sfu/
+        cp -r $src/examples typst-sfu/examples
+
+        zip -rX9 $out typst-sfu
+      '';
   };
 }
