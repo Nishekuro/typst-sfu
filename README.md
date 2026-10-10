@@ -1,21 +1,31 @@
 # Описание
 
-Шаблон `typst` согласно [стандарту СФУ](https://www.about.sfu-kras.ru/node/8127)
+Шаблон `typst` согласно [стандарту СФУ](https://sfu.ru/ru/about/documents/370f0624-9d43-438f-9b5d-d93187e6d2b0)
 
-В вышеукащанном стандарте сотсутсвует какое либо упоминание open-source шрифтов.
+В вышеуказанном стандарте отсутствует какое-либо упоминание open-source шрифтов.
 
-# Варианты структуры репозитория
-```
-  typst-sfu
-  ├── exmp
-  │   ├── assets
-  │   │   └── img.png
-  │   └── main.typ
-  ├── .gitignore
-  ├── README.md
-  ├── flake.lock
-  ├── flake.nix
-  ├── lib.typ
-  ├── titlepage.typ
-  └── typst.toml
-```
+# Вклад в Typst
+
+1. Получать реальный "интервал в одну строку" через что-то вроде `linebreak.width`. Расстояние, кратное текущему `linebreak` необходимо для глобального определения `block.above` и `block.below`.
+  - issue 4224
+  - issue 1221
+  - issue 1306
+  - issue 1003
+  - issue 5225
+  - пакет `gridblock`
+2. Номер `math.equeation.where(block: true)` быть отдельной сущностью (`block`или `box`) и иметь собственный API настройки `text(size)`.
+  - issue 380
+  - прецедент `figure.caption` - уже отдельный элемент
+3. Typst имеет 3 вида списков: `list`, `emum` и `terms`. Первие 2 имеют поля `marker-align` и `number-align` соответственно, и поле `hanging-indent` в них принципиально не возможно. Потому необходимо оба первых типа полностью переопределять в `terms` через `show`. Однако `terms` (и остальные тоже) не умеют определять свой `level`
+  - issue 5751
+  - issue 5998
+
+# TODO
+
+- Посмотреть исходный код `block`
+- Посмотреть разницу между `block.above` и `block.below` и `pad.top` и `pad.bottom`
+- сломаны тире и дефисы
+- привести списки к какому-то уровню
+- убрать отступ по слева у заголовков первого уровня
+- проверить титульник
+- ознакомиться с lssues и пактом `gridblock`
